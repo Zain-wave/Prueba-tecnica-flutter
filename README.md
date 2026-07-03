@@ -83,17 +83,4 @@ flutter analyze
 
 ## Reflection
 
-Elegí **Cubit** como gestor de estado porque el alcance real de la app es muy
-acotado: una sola entidad (`Expense`), una única acción (`addExpense`) y un
-derivado (los balances). BLoC completo con `Event` classes añadiría boilerplate
-sin beneficio, y Riverpod exigiría reorganizar `main.dart` y aprender otra API
-para resolver un caso que Cubit cubre con menos código y con integración
-directa en la carpeta `presentation/` ya prevista por la arquitectura. Para el
-cálculo del balance decidí que `total`, `average` y `balances` viven como
-**getters derivados dentro de `ExpensesState`**, no como campos guardados: la
-lista de gastos es la única fuente de verdad, así que los balances se
-recalculan automáticamente cada vez que `BlocBuilder` recibe un estado nuevo,
-sin riesgo de desincronización. Los colores (verde recibe, rojo paga) y el
-símbolo de moneda son concerns de presentación y viven en los widgets, no en
-el estado, y todo monto pasa por un único helper `formatAmount` para garantizar
-2 decimales consistentes en toda la UI.
+Elegí Cubit por el alcance acotado: una entidad (Expense), una acción (addExpense) y balances derivados. BLoC agregaba boilerplate sin beneficio; Riverpod requería reestructurar main.dart. Cubit resuelve con menos código y encaja en presentation/. Los balances son getters en ExpensesState, no campos — la lista de gastos es la única fuente de verdad, se recalculan solos en cada BlocBuilder. Colores y moneda son concerns de los widgets, y todo monto pasa por formatAmount para 2 decimales consistentes.
